@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import CreateQuiz from "./pages/CreateQuiz";
@@ -17,8 +17,19 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAnalytics, setIsAnalytics] = useState(false); // Add state for analytics
-  const userId = localStorage.getItem("userId");
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
+  const [isAnalytics, setIsAnalytics] = useState(false);  // Add state for Analytics
+
+  useEffect(() => {
+    // Whenever userId in localStorage changes, update the state
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
 
   return (
     <>
@@ -32,22 +43,17 @@ const App = () => {
               isAuthenticated ? (
                 <Navigate to={`/analytics/${userId}`} />
               ) : (
-                <Login />
+                <Navigate to="/auth/login" />
               )
             }
           />
           <Route path="/create_quiz/:userId" element={<CreateQuiz />} />
           <Route path="/share_quiz/:userId/:quizId" element={<ShareQuiz />} />
-          <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route 
-            path="/analytics/:userId" 
-            element={
-              <Analysis 
-                isAnalytics={isAnalytics} 
-                setIsAnalytics={setIsAnalytics} 
-              />
-            } 
+            path="/quiz/:quizId" 
+            element={<Quiz setIsAnalytics={setIsAnalytics} />}  // Pass setIsAnalytics to Quiz
           />
+          <Route path="/analytics/:userId" element={<Analysis />} />
           <Route path="/attempt_quiz/:userId" element={<AttemptQuiz />} />
           <Route path="/edit_poll/:userId/:quizId" element={<EditPoll />} />
           <Route path="/edit_qna/:userId/:quizId" element={<EditQna />} />
