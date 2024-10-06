@@ -1,3 +1,4 @@
+// src/pages/CreateQuiz.jsx
 import React, { useState } from "react";
 import { create_Quiz } from "../api/quizApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,19 +44,21 @@ function CreateQuiz() {
   };
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-black bg-opacity-50">
+    <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-br from-purple-500 to-teal-400">
       {!isPoll && !isQna ? (
-        <div className="bg-white p-10 w-80 rounded-lg shadow-lg">
+        <div className="bg-white p-10 w-80 rounded-lg shadow-xl">
           <input
             type="text"
             placeholder="Quiz name"
             onChange={(e) => setQuizTitle(e.target.value)}
-            className="mt-2 p-3 w-full border rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-3 w-full border rounded-md shadow focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <div className="flex justify-between items-center mt-4">
             <h3 className="text-gray-600 text-lg">Quiz type</h3>
             <div className="flex space-x-4">
-              <label className={`radio-button ${quizType === "qna" ? "active" : ""}`}>
+              <label
+                className={`radio-button ${quizType === "qna" ? "active" : ""}`}
+              >
                 <input
                   type="radio"
                   name="quizType"
@@ -65,7 +68,11 @@ function CreateQuiz() {
                 />{" "}
                 MCQ's
               </label>
-              <label className={`radio-button ${quizType === "poll" ? "active" : ""}`}>
+              <label
+                className={`radio-button ${
+                  quizType === "poll" ? "active" : ""
+                }`}
+              >
                 <input
                   type="radio"
                   name="quizType"
@@ -73,7 +80,7 @@ function CreateQuiz() {
                   onChange={handleQuizTypeChange}
                   className="mr-1"
                 />{" "}
-                Poll 
+                Poll
               </label>
             </div>
           </div>
@@ -85,7 +92,7 @@ function CreateQuiz() {
               Cancel
             </button>
             <button
-              className="py-2 px-4 bg-green-500 text-white rounded-md shadow hover:bg-green-600"
+              className="py-2 px-4 bg-purple-600 text-white rounded-md shadow hover:bg-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105"
               onClick={handleCreate}
             >
               Continue

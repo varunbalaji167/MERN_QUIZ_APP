@@ -57,9 +57,21 @@ export const delete_Quiz = async (quizId) => {
   }
 };
 
+// export const increment_QuizAttempts = async (quizId, token) => {
+//   return await axios.patch(
+//     `/incrementQuizAttempts/${quizId}`,
+//     {},
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }
+//   );
+// };
+
 export const increment_QuizAttempts = async (quizId, token) => {
   return await axios.patch(
-    `/incrementQuizAttempts/${quizId}`,
+    `${baseUrl}/incrementQuizAttempts/${quizId}`, // Ensure you include the base URL
     {},
     {
       headers: {

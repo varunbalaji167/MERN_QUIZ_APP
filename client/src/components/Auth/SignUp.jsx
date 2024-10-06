@@ -1,184 +1,8 @@
-// //src/componnets/Auth/Signup.jsx
-// import React, { useState } from "react";
-// import { signup } from "../../api/authApi";
-// import { toast } from "react-toastify";
-// import { useNavigate, Link } from "react-router-dom"; 
-// import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
-
-// const SignUp = () => {
-//   const [username, setUsername] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState("");
-//   const [errors, setErrors] = useState({});
-//   const [showPassword, setShowPassword] = useState(false); // State for showing password
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for showing confirm password
-//   const navigate = useNavigate();
-
-//   const validate = () => {
-//     const newErrors = {};
-//     if (!username) newErrors.username = "Username is required";
-//     if (!email) {
-//       newErrors.email = "Email is required";
-//     } else if (!/\S+@\S+\.\S+/.test(email)) {
-//       newErrors.email = "Email is invalid";
-//     }
-//     if (!password) newErrors.password = "Password is required";
-//     if (!confirmPassword) {
-//       newErrors.confirmPassword = "Confirm Password is required";
-//     } else if (password !== confirmPassword) {
-//       newErrors.confirmPassword = "Passwords must match";
-//     }
-//     return newErrors;
-//   };
-
-//   const handleSubmit = async () => {
-//     const newErrors = validate();
-//     if (Object.keys(newErrors).length > 0) {
-//       setErrors(newErrors);
-//       return;
-//     }
-
-//     try {
-//       const response = await signup({
-//         username,
-//         email,
-//         password,
-//         confirmPassword,
-//       });
-
-//       console.log("Signup Response:", response); 
-
-//       if (response.status === 201) {
-//         toast.success(response.data.message || "Registration successful! Redirecting to login...");
-//         setTimeout(() => {
-//           navigate("/auth/login");
-//         }, 2000); 
-//       }
-//     } catch (error) {
-//       toast.error("An error occurred. Please try again.");
-//       console.log(error);
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-//       <div className="bg-white shadow-lg rounded-lg p-8 w-96">
-//         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-
-//         {/* Username Field */}
-//         <div className="mb-4">
-//           <label className="block text-sm font-semibold mb-1">Username</label>
-//           <div className="flex items-center border rounded-lg border-gray-300">
-//             <FaUser className="text-gray-500 mx-3" />
-//             <input
-//               className={`flex-1 p-2 rounded-lg outline-none ${errors.username ? "border-red-500" : "border-gray-300"}`}
-//               type="text"
-//               placeholder="Enter a name"
-//               value={username}
-//               onChange={(e) => {
-//                 setUsername(e.target.value);
-//                 setErrors((prev) => ({ ...prev, username: "" }));
-//               }}
-//             />
-//           </div>
-//           {errors.username && <div className="text-red-500 text-sm">{errors.username}</div>}
-//         </div>
-
-//         {/* Email Field */}
-//         <div className="mb-4">
-//           <label className="block text-sm font-semibold mb-1">Email</label>
-//           <div className="flex items-center border rounded-lg border-gray-300">
-//             <FaEnvelope className="text-gray-500 mx-3" />
-//             <input
-//               className={`flex-1 p-2 rounded-lg outline-none ${errors.email ? "border-red-500" : "border-gray-300"}`}
-//               type="email"
-//               placeholder="Enter your Email"
-//               value={email}
-//               onChange={(e) => {
-//                 setEmail(e.target.value);
-//                 setErrors((prev) => ({ ...prev, email: "" }));
-//               }}
-//             />
-//           </div>
-//           {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-//         </div>
-
-//         {/* Password Field */}
-//         <div className="mb-4">
-//           <label className="block text-sm font-semibold mb-1">Password</label>
-//           <div className="flex items-center border rounded-lg border-gray-300">
-//             <FaLock className="text-gray-500 mx-3" />
-//             <input
-//               className={`flex-1 p-2 rounded-lg outline-none ${errors.password ? "border-red-500" : "border-gray-300"}`}
-//               type={showPassword ? "text" : "password"} // Toggle password visibility
-//               placeholder="Password"
-//               value={password}
-//               onChange={(e) => {
-//                 setPassword(e.target.value);
-//                 setErrors((prev) => ({ ...prev, password: "" }));
-//               }}
-//             />
-//             {/* Toggle Password Visibility Icon */}
-//             <button type="button" onClick={() => setShowPassword(!showPassword)} className="mr-3">
-//               {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
-//             </button>
-//           </div>
-//           {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
-//         </div>
-
-//         {/* Confirm Password Field */}
-//         <div className="mb-6">
-//           <label className="block text-sm font-semibold mb-1">Confirm Password</label>
-//           <div className="flex items-center border rounded-lg border-gray-300">
-//             <FaLock className="text-gray-500 mx-3" />
-//             <input
-//               className={`flex-1 p-2 rounded-lg outline-none ${errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
-//               type={showConfirmPassword ? "text" : "password"} // Toggle confirm password visibility
-//               placeholder="Confirm Password"
-//               value={confirmPassword}
-//               onChange={(e) => {
-//                 setConfirmPassword(e.target.value);
-//                 setErrors((prev) => ({ ...prev, confirmPassword: "" }));
-//               }}
-//             />
-//             {/* Toggle Confirm Password Visibility Icon */}
-//             <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="mr-3">
-//               {showConfirmPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
-//             </button>
-//           </div>
-//           {errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword}</div>}
-//         </div>
-
-//         <button
-//           className="bg-blue-500 text-white rounded-lg p-2 w-full hover:bg-blue-600 transition duration-200 font-bold"
-//           onClick={handleSubmit}
-//         >
-//           Sign Up
-//         </button>
-
-//         <div className="mt-4 text-center">
-//           <span className="text-sm">
-//             Already have an account?{" "}
-//             <Link to="/auth/login" className="text-blue-500 font-semibold hover:underline">
-//               Login
-//             </Link>
-//           </span>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
-
-
-
-// src/components/Auth/Signup.jsx
+// src/componnets/Auth/Signup.jsx
 import React, { useState } from "react";
 import { signup } from "../../api/authApi";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom"; 
+import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 const SignUp = () => {
@@ -192,7 +16,12 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const validate = () => {
-    const newErrors = { username: "", email: "", password: "", confirmPassword: "" };
+    const newErrors = {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
 
     if (!username) newErrors.username = "Username is required";
     if (!email) {
@@ -227,13 +56,14 @@ const SignUp = () => {
         confirmPassword,
       });
 
-      console.log("Signup Response:", response); 
-
       if (response.status === 201) {
-        toast.success(response.data.message || "Registration successful! Redirecting to login...");
+        toast.success(
+          response.data.message ||
+            "Registration successful! Redirecting to login..."
+        );
         setTimeout(() => {
           navigate("/auth/login");
-        }, 2000); 
+        }, 2000);
       } else {
         toast.error(response.data.message || "Registration failed.");
       }
@@ -244,20 +74,26 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-teal-400">
+      <div className="bg-white shadow-xl rounded-xl p-10 w-full max-w-md">
+        <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-10">
+          Create an Account
+        </h2>
 
-        <form onSubmit={handleSubmit}> {/* Form element to manage submission */}
+        <form onSubmit={handleSubmit} className="space-y-8">
           {/* Username Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Username</label>
-            <div className="flex items-center border rounded-lg border-gray-300">
-              <FaUser className="text-gray-500 mx-3" />
+          <div>
+            <label className="block text-sm font-medium text-teal-600 mb-2">
+              Username
+            </label>
+            <div className="flex items-center border rounded-lg border-gray-300 bg-gray-50 focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-300">
+              <FaUser className="text-teal-500 mx-3" />
               <input
-                className={`flex-1 p-2 rounded-lg outline-none ${errors.username ? "border-red-500" : "border-gray-300"}`}
+                className={`flex-1 p-3 rounded-lg outline-none text-gray-700 bg-transparent focus:ring-0 ${
+                  errors.username ? "border-red-500" : ""
+                }`}
                 type="text"
-                placeholder="Enter a name"
+                placeholder="Enter your username"
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
@@ -265,18 +101,24 @@ const SignUp = () => {
                 }}
               />
             </div>
-            {errors.username && <div className="text-red-500 text-sm">{errors.username}</div>}
+            {errors.username && (
+              <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+            )}
           </div>
 
           {/* Email Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Email</label>
-            <div className="flex items-center border rounded-lg border-gray-300">
-              <FaEnvelope className="text-gray-500 mx-3" />
+          <div>
+            <label className="block text-sm font-medium text-teal-600 mb-2">
+              Email
+            </label>
+            <div className="flex items-center border rounded-lg border-gray-300 bg-gray-50 focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-300">
+              <FaEnvelope className="text-teal-500 mx-3" />
               <input
-                className={`flex-1 p-2 rounded-lg outline-none ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                className={`flex-1 p-3 rounded-lg outline-none text-gray-700 bg-transparent focus:ring-0 ${
+                  errors.email ? "border-red-500" : ""
+                }`}
                 type="email"
-                placeholder="Enter your Email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -284,67 +126,100 @@ const SignUp = () => {
                 }}
               />
             </div>
-            {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
+            {errors.email && (
+              <div className="text-red-500 text-xs mt-1">{errors.email}</div>
+            )}
           </div>
 
           {/* Password Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-1">Password</label>
-            <div className="flex items-center border rounded-lg border-gray-300">
-              <FaLock className="text-gray-500 mx-3" />
+          <div>
+            <label className="block text-sm font-medium text-teal-600 mb-2">
+              Password
+            </label>
+            <div className="flex items-center border rounded-lg border-gray-300 bg-gray-50 focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-300">
+              <FaLock className="text-teal-500 mx-3" />
               <input
-                className={`flex-1 p-2 rounded-lg outline-none ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                className={`flex-1 p-3 rounded-lg outline-none text-gray-700 bg-transparent focus:ring-0 ${
+                  errors.password ? "border-red-500" : ""
+                }`}
                 type={showPassword ? "text" : "password"} // Toggle password visibility
-                placeholder="Password"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   setErrors((prev) => ({ ...prev, password: "" }));
                 }}
               />
-              {/* Toggle Password Visibility Icon */}
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="mr-3">
-                {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="mr-3 focus:outline-none"
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="text-teal-500" />
+                ) : (
+                  <FaEye className="text-teal-500" />
+                )}
               </button>
             </div>
-            {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+            {errors.password && (
+              <div className="text-red-500 text-xs mt-1">{errors.password}</div>
+            )}
           </div>
 
           {/* Confirm Password Field */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold mb-1">Confirm Password</label>
-            <div className="flex items-center border rounded-lg border-gray-300">
-              <FaLock className="text-gray-500 mx-3" />
+          <div>
+            <label className="block text-sm font-medium text-teal-600 mb-2">
+              Confirm Password
+            </label>
+            <div className="flex items-center border rounded-lg border-gray-300 bg-gray-50 focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-300">
+              <FaLock className="text-teal-500 mx-3" />
               <input
-                className={`flex-1 p-2 rounded-lg outline-none ${errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
+                className={`flex-1 p-3 rounded-lg outline-none text-gray-700 bg-transparent focus:ring-0 ${
+                  errors.confirmPassword ? "border-red-500" : ""
+                }`}
                 type={showConfirmPassword ? "text" : "password"} // Toggle confirm password visibility
-                placeholder="Confirm Password"
+                placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                   setErrors((prev) => ({ ...prev, confirmPassword: "" }));
                 }}
               />
-              {/* Toggle Confirm Password Visibility Icon */}
-              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="mr-3">
-                {showConfirmPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="mr-3 focus:outline-none"
+              >
+                {showConfirmPassword ? (
+                  <FaEyeSlash className="text-teal-500" />
+                ) : (
+                  <FaEye className="text-teal-500" />
+                )}
               </button>
             </div>
-            {errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword}</div>}
+            {errors.confirmPassword && (
+              <div className="text-red-500 text-xs mt-1">
+                {errors.confirmPassword}
+              </div>
+            )}
           </div>
 
           <button
-            type="submit" // Change to type="submit" for form behavior
-            className="bg-blue-500 text-white rounded-lg p-2 w-full hover:bg-blue-600 transition duration-200 font-bold"
+            type="submit"
+            className="bg-purple-600 hover:bg-purple-700 text-gray-50 font-bold py-3 rounded-lg w-full transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300"
           >
             Sign Up
           </button>
         </form>
 
-        <div className="mt-4 text-center">
-          <span className="text-sm">
+        <div className="mt-6 text-center">
+          <span className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link to="/auth/login" className="text-blue-500 font-semibold hover:underline">
+            <Link
+              to="/auth/login"
+              className="text-purple-500 font-semibold hover:underline"
+            >
               Login
             </Link>
           </span>

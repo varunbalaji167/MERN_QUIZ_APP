@@ -1,3 +1,4 @@
+// src/pages/EditQna.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { get_QnaById, update_Qna } from "../api/qnaApi";
@@ -55,7 +56,9 @@ const EditQna = () => {
       answer: "",
     };
 
-    const allQuestionsFilled = items.every((item) => item.question.trim() !== "");
+    const allQuestionsFilled = items.every(
+      (item) => item.question.trim() !== ""
+    );
     const allInputsFilled = items.every((item) =>
       item.inputs.every((input) =>
         item.type === "both"
@@ -66,10 +69,12 @@ const EditQna = () => {
     const allAnswersSelected = items.every((item) => item.answerIndex !== null);
 
     if (!allQuestionsFilled) {
-      newValidationMessages.question = "Please fill in the question for every item.";
+      newValidationMessages.question =
+        "Please fill in the question for every item.";
     }
     if (!allInputsFilled) {
-      newValidationMessages.input = "Please fill in all input fields for every item.";
+      newValidationMessages.input =
+        "Please fill in all input fields for every item.";
     }
     if (!allAnswersSelected) {
       newValidationMessages.answer = "Please select an answer for each item.";
@@ -103,19 +108,21 @@ const EditQna = () => {
   const selectedItem = items[selectedItemIndex];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-semibold mb-4">Edit Q&A</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-green-500 p-4">
+      <div className="bg-white p-6 md:p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Edit MCQ's
+        </h2>
         <div className="flex flex-col space-y-4">
-          <div className="flex space-x-4">
+          <div className="flex flex-wrap md:flex-nowrap space-x-0 md:space-x-4">
             <div className="flex flex-col">
               {items.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => handleItemClick(index)}
-                  className={`text-lg font-medium px-4 py-2 rounded-lg border ${
+                  className={`text-lg font-semibold px-4 py-2 rounded-lg border transition duration-200 ${
                     index === selectedItemIndex
-                      ? "bg-green-500 text-white"
+                      ? "bg-blue-600 text-white"
                       : "border-gray-300 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -125,7 +132,7 @@ const EditQna = () => {
             </div>
             <div className="flex-grow">
               {selectedItem && (
-                <div>
+                <div className="flex flex-col">
                   <input
                     type="text"
                     value={selectedItem.question}
@@ -133,27 +140,42 @@ const EditQna = () => {
                       handleQuestionChange(selectedItemIndex, e.target.value)
                     }
                     placeholder="Q & A question"
-                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 mb-4"
                   />
-                  <div className="flex flex-col mt-4">
+                  <div className="flex flex-col mt-2 space-y-2">
                     {selectedItem.inputs.map((input, inputIndex) => (
-                      <div key={inputIndex} className="flex items-center space-x-2">
+                      <div
+                        key={inputIndex}
+                        className="flex items-center space-x-2 mb-2"
+                      >
                         <input
                           type="radio"
                           name={`answer-${selectedItemIndex}`}
                           checked={selectedItem.answerIndex === inputIndex}
-                          onChange={() => handleInputChange(selectedItemIndex, inputIndex, "answerIndex", inputIndex)}
-                          className="h-5 w-5 text-green-600 border-gray-300 rounded-full focus:ring-green-500"
+                          onChange={() =>
+                            handleInputChange(
+                              selectedItemIndex,
+                              inputIndex,
+                              "answerIndex",
+                              inputIndex
+                            )
+                          }
+                          className="h-5 w-5 text-blue-600 border-gray-300 rounded-full focus:ring-blue-500"
                         />
                         {selectedItem.type === "text" && (
                           <input
                             type="text"
                             value={input.text}
                             onChange={(e) =>
-                              handleInputChange(selectedItemIndex, inputIndex, "text", e.target.value)
+                              handleInputChange(
+                                selectedItemIndex,
+                                inputIndex,
+                                "text",
+                                e.target.value
+                              )
                             }
                             placeholder="Option text"
-                            className="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                           />
                         )}
                         {selectedItem.type === "imageUrl" && (
@@ -161,10 +183,15 @@ const EditQna = () => {
                             type="text"
                             value={input.imageUrl}
                             onChange={(e) =>
-                              handleInputChange(selectedItemIndex, inputIndex, "imageUrl", e.target.value)
+                              handleInputChange(
+                                selectedItemIndex,
+                                inputIndex,
+                                "imageUrl",
+                                e.target.value
+                              )
                             }
                             placeholder="Image URL"
-                            className="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                           />
                         )}
                         {selectedItem.type === "both" && (
@@ -173,19 +200,29 @@ const EditQna = () => {
                               type="text"
                               value={input.text}
                               onChange={(e) =>
-                                handleInputChange(selectedItemIndex, inputIndex, "text", e.target.value)
+                                handleInputChange(
+                                  selectedItemIndex,
+                                  inputIndex,
+                                  "text",
+                                  e.target.value
+                                )
                               }
                               placeholder="Option text"
-                              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                             />
                             <input
                               type="text"
                               value={input.imageUrl}
                               onChange={(e) =>
-                                handleInputChange(selectedItemIndex, inputIndex, "imageUrl", e.target.value)
+                                handleInputChange(
+                                  selectedItemIndex,
+                                  inputIndex,
+                                  "imageUrl",
+                                  e.target.value
+                                )
                               }
                               placeholder="Image URL"
-                              className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                             />
                           </div>
                         )}
@@ -195,16 +232,18 @@ const EditQna = () => {
 
                   <div className="mt-4">
                     <h4 className="text-lg font-semibold mb-2">Timer</h4>
-                    <div className="flex space-x-2">
+                    <div className="flex flex-wrap space-x-2">
                       {["off", "5", "10"].map((time) => (
                         <button
                           key={time}
-                          className={`px-4 py-2 rounded-lg border ${
+                          className={`flex-1 px-4 py-2 rounded-lg border transition duration-200 ${
                             selectedItem.timer === time
-                              ? "bg-green-500 text-white"
+                              ? "bg-blue-600 text-white"
                               : "border-gray-300 text-gray-700 hover:bg-gray-200"
                           }`}
-                          onClick={() => handleTimerChange(selectedItemIndex, time)}
+                          onClick={() =>
+                            handleTimerChange(selectedItemIndex, time)
+                          }
                         >
                           {time === "off" ? "Off" : `${time} seconds`}
                         </button>
@@ -216,15 +255,15 @@ const EditQna = () => {
             </div>
           </div>
 
-          <div className="flex justify-between mt-6">
+          <div className="flex flex-col sm:flex-row justify-between mt-6">
             <button
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+              className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-200 mb-2 sm:mb-0"
               onClick={() => navigate(`/analytics/${userId}`)}
             >
               Cancel
             </button>
             <button
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200"
               onClick={updateQna}
             >
               Update Quiz

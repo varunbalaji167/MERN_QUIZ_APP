@@ -1,3 +1,4 @@
+// src/components/Quiz/CreatePoll.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { create_Poll } from "../../api/pollApi";
@@ -45,12 +46,16 @@ const CreatePoll = ({ quizId }) => {
     newItems[selectedItemIndex].type = type;
 
     if (type === "both") {
-      newItems[selectedItemIndex].inputs = newItems[selectedItemIndex].inputs.map(() => ({
+      newItems[selectedItemIndex].inputs = newItems[
+        selectedItemIndex
+      ].inputs.map(() => ({
         text: "",
         imageUrl: "",
       }));
     } else {
-      newItems[selectedItemIndex].inputs = newItems[selectedItemIndex].inputs.map(() => ({
+      newItems[selectedItemIndex].inputs = newItems[
+        selectedItemIndex
+      ].inputs.map(() => ({
         text: "",
       }));
     }
@@ -110,7 +115,9 @@ const CreatePoll = ({ quizId }) => {
       input: "",
     };
 
-    const allQuestionsFilled = items.every((item) => item.question.trim() !== "");
+    const allQuestionsFilled = items.every(
+      (item) => item.question.trim() !== ""
+    );
     const allInputsFilled = items.every((item) =>
       item.inputs.every(
         (input) =>
@@ -120,11 +127,13 @@ const CreatePoll = ({ quizId }) => {
     );
 
     if (!allQuestionsFilled) {
-      newValidationMessages.question = "Please fill in the question for every item.";
+      newValidationMessages.question =
+        "Please fill in the question for every item.";
     }
 
     if (!allInputsFilled) {
-      newValidationMessages.input = "Please fill in all input fields for every item.";
+      newValidationMessages.input =
+        "Please fill in all input fields for every item.";
     }
 
     setValidationMessages(newValidationMessages);
@@ -153,24 +162,28 @@ const CreatePoll = ({ quizId }) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xl">
-        <h2 className="text-2xl font-bold text-center mb-4">Create Poll</h2>
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center mb-6 text-teal-600">
+          Create Poll
+        </h2>
 
-        <div className="items-container mb-4">
-          <div className="flex items-center justify-between">
+        <div className="items-container mb-6">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex flex-col w-full">
               {items.map((item, index) => (
                 <div className="flex items-center mb-2" key={index}>
                   <button
                     onClick={() => handleItemClick(index)}
-                    className={`item-button px-3 py-2 rounded-l-lg border ${
-                      index === selectedItemIndex ? "bg-blue-500 text-white" : "bg-gray-300"
+                    className={`item-button px-4 py-2 rounded-l-lg border ${
+                      index === selectedItemIndex
+                        ? "bg-teal-500 text-white"
+                        : "bg-gray-200"
                     }`}
                   >
                     {index + 1}
                   </button>
                   <button
-                    className="ml-2 bg-red-500 text-white p-2 rounded-lg"
+                    className="ml-2 bg-red-500 text-white p-2 rounded-lg flex items-center justify-center"
                     onClick={() => deleteItem(index)}
                   >
                     <RiDeleteBin6Fill />
@@ -181,9 +194,9 @@ const CreatePoll = ({ quizId }) => {
             {items.length < 5 && (
               <button
                 onClick={addNewItem}
-                className="bg-green-500 text-white p-2 rounded-lg ml-2"
+                className="bg-teal-500 text-white p-2 rounded-lg ml-2"
               >
-                Add Item
+                Add question
               </button>
             )}
           </div>
@@ -195,38 +208,45 @@ const CreatePoll = ({ quizId }) => {
             <input
               type="text"
               value={selectedItem.question}
-              onChange={(e) => handleQuestionChange(selectedItemIndex, e.target.value)}
+              onChange={(e) =>
+                handleQuestionChange(selectedItemIndex, e.target.value)
+              }
               placeholder="Poll question"
-              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+              className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-400"
             />
 
-            <div className="flex justify-between mb-2">
-              <h3 className="text-gray-700">Option type</h3>
-              <div>
-                <label className="mr-2">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-gray-700 text-lg font-semibold">
+                Option type
+              </h3>
+              <div className="flex space-x-2">
+                <label className="flex items-center">
                   <input
                     type="radio"
                     name="inputType"
                     checked={selectedItem.type === "text"}
                     onChange={() => handleTypeChange("text")}
+                    className="mr-1"
                   />
                   Text
                 </label>
-                <label className="mr-2">
+                <label className="flex items-center">
                   <input
                     type="radio"
                     name="inputType"
                     checked={selectedItem.type === "imageUrl"}
                     onChange={() => handleTypeChange("imageUrl")}
+                    className="mr-1"
                   />
                   Image URL
                 </label>
-                <label>
+                <label className="flex items-center">
                   <input
                     type="radio"
                     name="inputType"
                     checked={selectedItem.type === "both"}
                     onChange={() => handleTypeChange("both")}
+                    className="mr-1"
                   />
                   Both
                 </label>
@@ -234,16 +254,21 @@ const CreatePoll = ({ quizId }) => {
             </div>
 
             {selectedItem.inputs.map((input, inputIndex) => (
-              <div className="flex items-center mb-2" key={inputIndex}>
+              <div className="flex items-center mb-4" key={inputIndex}>
                 {selectedItem.type === "text" && (
                   <input
                     type="text"
                     value={input.text}
                     onChange={(e) =>
-                      handleInputChange(selectedItemIndex, inputIndex, "text", e.target.value)
+                      handleInputChange(
+                        selectedItemIndex,
+                        inputIndex,
+                        "text",
+                        e.target.value
+                      )
                     }
                     placeholder="Text"
-                    className="flex-1 p-2 border border-gray-300 rounded-lg"
+                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 )}
 
@@ -252,10 +277,15 @@ const CreatePoll = ({ quizId }) => {
                     type="text"
                     value={input.imageUrl}
                     onChange={(e) =>
-                      handleInputChange(selectedItemIndex, inputIndex, "imageUrl", e.target.value)
+                      handleInputChange(
+                        selectedItemIndex,
+                        inputIndex,
+                        "imageUrl",
+                        e.target.value
+                      )
                     }
                     placeholder="Image URL"
-                    className="flex-1 p-2 border border-gray-300 rounded-lg"
+                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 )}
 
@@ -265,26 +295,38 @@ const CreatePoll = ({ quizId }) => {
                       type="text"
                       value={input.text}
                       onChange={(e) =>
-                        handleInputChange(selectedItemIndex, inputIndex, "text", e.target.value)
+                        handleInputChange(
+                          selectedItemIndex,
+                          inputIndex,
+                          "text",
+                          e.target.value
+                        )
                       }
                       placeholder="Text"
-                      className="flex-1 p-2 border border-gray-300 rounded-lg"
+                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                     <input
                       type="text"
                       value={input.imageUrl}
                       onChange={(e) =>
-                        handleInputChange(selectedItemIndex, inputIndex, "imageUrl", e.target.value)
+                        handleInputChange(
+                          selectedItemIndex,
+                          inputIndex,
+                          "imageUrl",
+                          e.target.value
+                        )
                       }
                       placeholder="Image URL"
-                      className="flex-1 p-2 border border-gray-300 rounded-lg"
+                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                   </div>
                 )}
 
                 {inputIndex >= 2 && (
                   <button
-                    onClick={() => removeInputField(selectedItemIndex, inputIndex)}
+                    onClick={() =>
+                      removeInputField(selectedItemIndex, inputIndex)
+                    }
                     className="ml-2 text-red-500"
                   >
                     <RiDeleteBin6Fill />
@@ -295,21 +337,23 @@ const CreatePoll = ({ quizId }) => {
 
             {selectedItem.inputs.length < 4 && (
               <button
-                className="bg-blue-500 text-white p-2 rounded-lg"
+                className="bg-teal-500 text-white p-2 rounded-lg"
                 onClick={() => addInputField(selectedItemIndex)}
               >
                 Add Option
               </button>
             )}
 
-            <div className="mt-4">
-              <h4 className="text-gray-700">Set Timer</h4>
+            <div className="mt-6">
+              <h4 className="text-gray-700 text-lg font-semibold">Set Timer</h4>
               <div className="flex space-x-2">
                 {["off", "5sec", "10sec"].map((timer) => (
                   <button
                     key={timer}
                     className={`flex-1 p-2 rounded-lg ${
-                      selectedItem.timer === timer ? "bg-green-500 text-white" : "bg-gray-300"
+                      selectedItem.timer === timer
+                        ? "bg-teal-500 text-white"
+                        : "bg-gray-300"
                     }`}
                     onClick={() => handleTimerChange(selectedItemIndex, timer)}
                   >
@@ -321,15 +365,15 @@ const CreatePoll = ({ quizId }) => {
           </div>
         )}
 
-        <div className="flex justify-between mt-6">
+        <div className="flex justify-between mt-8">
           <button
-            className="bg-red-500 text-white p-2 rounded-lg"
+            className="bg-red-500 text-white p-3 rounded-lg flex-1 mr-2"
             onClick={() => navigate(`/analytics/${userId}`)}
           >
             Cancel
           </button>
           <button
-            className="bg-green-600 text-white p-2 rounded-lg"
+            className="bg-teal-600 text-white p-3 rounded-lg flex-1 ml-2"
             onClick={createPoll}
           >
             Create Quiz

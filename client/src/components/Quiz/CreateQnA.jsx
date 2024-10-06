@@ -1,3 +1,4 @@
+// src/components/Quiz/CreateQnA.jsx
 import React, { useState } from "react";
 import { create_Qna } from "../../api/qnaApi";
 import { useParams, useNavigate } from "react-router-dom";
@@ -162,7 +163,9 @@ const CreateQnA = ({ quizId }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Create Q & A</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">
+          Create MCQ's
+        </h2>
         <div className="items-container mb-4">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex-1">
@@ -170,16 +173,16 @@ const CreateQnA = ({ quizId }) => {
                 <div className="flex items-center mb-2" key={index}>
                   <button
                     onClick={() => handleItemClick(index)}
-                    className={`w-8 h-8 flex items-center justify-center rounded-full border ${
+                    className={`w-8 h-8 flex items-center justify-center rounded-full border transition duration-200 ${
                       index === selectedItemIndex
-                        ? "bg-blue-500 text-white"
+                        ? "bg-teal-600 text-white"
                         : "bg-gray-300"
                     }`}
                   >
                     {index + 1}
                   </button>
                   <button
-                    className="text-red-600 ml-2"
+                    className="text-red-600 ml-2 hover:text-red-800 transition duration-200"
                     onClick={() => deleteItem(index)}
                   >
                     <RiDeleteBin6Fill />
@@ -190,9 +193,9 @@ const CreateQnA = ({ quizId }) => {
             {items.length < 5 && (
               <button
                 onClick={addNewItem}
-                className="bg-green-500 text-white p-2 rounded-md"
+                className="bg-teal-500 text-white p-2 rounded-md transition duration-200 hover:bg-teal-600"
               >
-                Add Item
+                Add Question
               </button>
             )}
           </div>
@@ -207,8 +210,8 @@ const CreateQnA = ({ quizId }) => {
               onChange={(e) =>
                 handleQuestionChange(selectedItemIndex, e.target.value)
               }
-              placeholder="Q & A question"
-              className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              placeholder="Question"
+              className="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-teal-400"
             />
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg text-gray-700">Option Type</h3>
@@ -222,7 +225,9 @@ const CreateQnA = ({ quizId }) => {
                       onChange={() => handleTypeChange(type)}
                       className="mr-2"
                     />
-                    {type === "both" ? "Text & Image URL" : type.charAt(0).toUpperCase() + type.slice(1)}
+                    {type === "both"
+                      ? "Text & Image URL"
+                      : type.charAt(0).toUpperCase() + type.slice(1)}
                   </label>
                 ))}
               </div>
@@ -233,7 +238,9 @@ const CreateQnA = ({ quizId }) => {
                   type="radio"
                   name={`answer-${selectedItemIndex}`}
                   checked={selectedItem.answerIndex === inputIndex}
-                  onChange={() => handleAnswerSelect(selectedItemIndex, inputIndex)}
+                  onChange={() =>
+                    handleAnswerSelect(selectedItemIndex, inputIndex)
+                  }
                   className="mr-2"
                 />
                 {selectedItem.type === "text" && (
@@ -249,7 +256,7 @@ const CreateQnA = ({ quizId }) => {
                       )
                     }
                     placeholder="Option Text"
-                    className="flex-1 p-2 border border-gray-300 rounded-md mr-2"
+                    className="flex-1 p-2 border border-gray-300 rounded-md mr-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 )}
                 {selectedItem.type === "imageUrl" && (
@@ -265,7 +272,7 @@ const CreateQnA = ({ quizId }) => {
                       )
                     }
                     placeholder="Image URL"
-                    className="flex-1 p-2 border border-gray-300 rounded-md mr-2"
+                    className="flex-1 p-2 border border-gray-300 rounded-md mr-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 )}
                 {selectedItem.type === "both" && (
@@ -282,7 +289,7 @@ const CreateQnA = ({ quizId }) => {
                         )
                       }
                       placeholder="Option Text"
-                      className="flex-1 p-2 border border-gray-300 rounded-md"
+                      className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                     <input
                       type="text"
@@ -296,13 +303,15 @@ const CreateQnA = ({ quizId }) => {
                         )
                       }
                       placeholder="Image URL"
-                      className="flex-1 p-2 border border-gray-300 rounded-md"
+                      className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                   </div>
                 )}
                 <button
-                  onClick={() => removeInputField(selectedItemIndex, inputIndex)}
-                  className="text-red-600 ml-2"
+                  onClick={() =>
+                    removeInputField(selectedItemIndex, inputIndex)
+                  }
+                  className="text-red-600 ml-2 hover:text-red-800 transition duration-200"
                 >
                   <RiDeleteBin6Fill />
                 </button>
@@ -310,12 +319,14 @@ const CreateQnA = ({ quizId }) => {
             ))}
             <button
               onClick={() => addInputField(selectedItemIndex)}
-              className="bg-blue-500 text-white p-2 rounded-md mb-4"
+              className="bg-teal-500 text-white p-2 rounded-md mb-4 transition duration-200 hover:bg-teal-600"
             >
               Add Option
             </button>
             {validationMessages.input && (
-              <p className="text-red-500 text-sm mb-2">{validationMessages.input}</p>
+              <p className="text-red-500 text-sm mb-2">
+                {validationMessages.input}
+              </p>
             )}
             <div className="flex justify-between mb-4">
               <label htmlFor="timer" className="text-gray-700">
@@ -327,7 +338,7 @@ const CreateQnA = ({ quizId }) => {
                 onChange={(e) =>
                   handleTimerChange(selectedItemIndex, e.target.value)
                 }
-                className="border border-gray-300 rounded-md"
+                className="border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
               >
                 <option value="off">Off</option>
                 <option value="10">10 seconds</option>
@@ -340,7 +351,7 @@ const CreateQnA = ({ quizId }) => {
 
         <button
           onClick={createQuiz}
-          className="bg-green-500 text-white p-2 rounded-md w-full"
+          className="bg-teal-500 text-white p-2 rounded-md w-full transition duration-200 hover:bg-teal-600"
         >
           Create Quiz
         </button>

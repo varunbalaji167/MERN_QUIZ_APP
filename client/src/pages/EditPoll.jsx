@@ -1,3 +1,4 @@
+// src/pages/EditPoll.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { get_PollById, update_Poll } from "../api/pollApi";
@@ -98,10 +99,16 @@ const EditPoll = () => {
   const selectedItem = items[selectedItemIndex];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-teal-400 p-4">
+      {" "}
+      {/* Gradient background */}
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         {items && (
           <div>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+              Edit Poll
+            </h2>{" "}
+            {/* Title */}
             <div className="flex gap-4 mb-4">
               <div className="flex flex-col">
                 {items.map((item, index) => (
@@ -119,7 +126,6 @@ const EditPoll = () => {
                 ))}
               </div>
             </div>
-
             {selectedItem && (
               <div>
                 <div className="mb-4">
@@ -130,7 +136,7 @@ const EditPoll = () => {
                       handleQuestionChange(selectedItemIndex, e.target.value)
                     }
                     placeholder="Poll question"
-                    className="border border-gray-300 rounded-md w-full p-2"
+                    className="border border-gray-300 rounded-md w-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                   />
                 </div>
 
@@ -153,7 +159,7 @@ const EditPoll = () => {
                             )
                           }
                           placeholder="Text"
-                          className="border border-gray-300 rounded-md w-full p-2"
+                          className="border border-gray-300 rounded-md w-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         />
                       )}
 
@@ -170,7 +176,7 @@ const EditPoll = () => {
                             )
                           }
                           placeholder="Image URL"
-                          className="border border-gray-300 rounded-md w-full p-2"
+                          className="border border-gray-300 rounded-md w-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         />
                       )}
 
@@ -188,7 +194,7 @@ const EditPoll = () => {
                               )
                             }
                             placeholder="Text"
-                            className="border border-gray-300 rounded-md w-full p-2"
+                            className="border border-gray-300 rounded-md w-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                           />
                           <input
                             type="text"
@@ -202,7 +208,7 @@ const EditPoll = () => {
                               )
                             }
                             placeholder="Image URL"
-                            className="border border-gray-300 rounded-md w-full p-2"
+                            className="border border-gray-300 rounded-md w-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                           />
                         </div>
                       )}
@@ -214,7 +220,7 @@ const EditPoll = () => {
                 <div className="mb-4">
                   <h4 className="font-semibold mb-2">Timer</h4>
                   <div className="flex gap-4">
-                    {["off", "5sec", "10sec"].map((option) => (
+                    {["off", "5 sec", "10 sec"].map((option) => (
                       <button
                         key={option}
                         className={`py-2 px-4 border rounded-md text-lg transition duration-200 ${
@@ -226,14 +232,13 @@ const EditPoll = () => {
                           handleTimerChange(selectedItemIndex, option)
                         }
                       >
-                        {option === "off" ? "Off" : `${option} seconds`}
+                        {option === "off" ? "Off" : `${option} `}
                       </button>
                     ))}
                   </div>
                 </div>
               </div>
             )}
-
             <div className="flex justify-between mt-6">
               <button
                 className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200"

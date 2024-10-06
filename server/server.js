@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 app.use(
   cors({
     origin: "http://localhost:5173",
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
 );
 
@@ -40,7 +41,7 @@ app.listen(process.env.PORT, () => {
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Database connected");
+    console.log("Atlas Database connected");
   })
   .catch((err) => {
     console.log(err);
