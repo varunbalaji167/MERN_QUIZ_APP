@@ -85,6 +85,7 @@ const Quiz = ({ setIsAnalytics }) => {
   const handleNext = () => {
     if (selectedItemIndex < items.length - 1) {
       setSelectedItemIndex((prevIndex) => prevIndex + 1);
+      setClickedIndex(null); // Reset clicked index on moving to next question
     }
   };
 
@@ -152,8 +153,8 @@ const Quiz = ({ setIsAnalytics }) => {
                   className={`p-4 border-2 rounded-lg transition duration-200 ${
                     clickedIndex === index
                       ? "border-blue-500 bg-blue-100"
-                      : "border-transparent hover:border-blue-300 hover:bg-blue-50"
-                  } flex justify-center items-center cursor-pointer`}
+                      : "border-gray-500 hover:border-blue-300 hover:bg-green-300"
+                  } flex justify-center items-center cursor-pointer shadow-sm`}
                   onClick={() => handleClick(index)}
                 >
                   {selectedItem.type === "text" && (

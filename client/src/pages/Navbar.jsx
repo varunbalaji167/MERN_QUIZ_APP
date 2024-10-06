@@ -14,7 +14,7 @@ const Navbar = ({ isAnalytics, setIsAnalytics, userId }) => {
   return (
     <div className="flex flex-col lg:flex-row items-center justify-between p-4 bg-gradient-to-r from-purple-600 to-teal-500 text-white shadow-md w-full">
       <h1 className="text-3xl font-semibold text-center lg:text-left lg:w-1/4 mb-2 lg:mb-0">
-        Quiz Maker
+        Quiz Crafter
       </h1>
       <div className="flex flex-col lg:flex-row lg:w-3/4 space-y-2 lg:space-y-0 lg:space-x-4">
         <button

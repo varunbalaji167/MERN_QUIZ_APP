@@ -12,11 +12,11 @@ const PollSubmitted = ({ userId, setIsAnalytics }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-center p-6 bg-gray-50">
-      <h1 className="text-4xl font-semibold mb-6 text-blue-600">
+    <div className="rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+      <h1 className="text-3xl font-semibold mb-4 text-blue-600">
         Thank you for participating in the Poll
       </h1>
-      <p className="text-lg text-gray-700 mb-4">
+      <p className="text-lg text-gray-700 mb-6">
         Your responses have been recorded. Click the button below to view your
         analytics.
       </p>
